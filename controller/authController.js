@@ -105,7 +105,7 @@ export const sendVerifyOtp = async (req, res) => {
       return res.json({ success: false, message: "admin not found" });
     }
 
-    const otpAlreadyExists = admin.customerOtp.verifyOtp.some(
+    const otpAlreadyExists = admin.customerOtp?.verifyOtp?.some(
       (itme)=>itme.email === email);
     
     if (otpAlreadyExists) {

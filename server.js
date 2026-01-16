@@ -12,12 +12,14 @@ import "./cron/otpCleanup.js"
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors(
-  {
-  origin:process.env.FRONTEND_URL || "https://mft-banking-frontend.vercel.app", 
-  credentials: true,
-}
-));
+
+app.use(cors({
+  origin: [
+      "http://localhost:5173",
+      process.env.FRONTEND_URL
+    ],
+  credentials:true
+}));
 app.use(express.json());
 app.use(cookieParser())
 app.use('/auth',authRouter)
