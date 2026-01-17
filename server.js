@@ -36,6 +36,11 @@ app.use(cookieParser())
 app.use('/auth',authRouter)
 app.use('/user', userRouter);
 
+app.use((err, req, res, next) => {
+  console.error("Global Error:", err);
+  res.status(500).json({ message: "Internal Server Error", error: err.message });
+});
+
 const startServer = async () => {
   try {
     await connectToMongoDb();
