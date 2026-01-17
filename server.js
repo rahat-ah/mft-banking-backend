@@ -12,14 +12,24 @@ import "./cron/otpCleanup.js"
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  "http://localhost:5173" // optional for local dev
+];
 
 app.use(cors({
-  origin: [
-      "http://localhost:5173",
-      process.env.FRONTEND_URL
-    ],
-  credentials:true
+  origin: function(origin, callback) {
+    if(!origin) return callback(null, true); // allows Postman / server requests
+    if(allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("CORS policy: Origin not allowed"));
+    }
+  },
+  credentials: true,
+  methods: ["GET","POST","PUT","DELETE","OPTIONS"]
 }));
+
 app.use(express.json());
 app.use(cookieParser())
 app.use('/auth',authRouter)
