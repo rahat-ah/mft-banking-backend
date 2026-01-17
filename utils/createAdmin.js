@@ -6,7 +6,8 @@ const createDefaultAdmin = async() => {
 
   if (adminExists)  return;
 
-  const users = await UserModel.find()
+  try {
+    const users = await UserModel.find()
   
   await AdminModel.create({
     profile: {
@@ -22,6 +23,12 @@ const createDefaultAdmin = async() => {
   });
 
   console.log("✅ Admin created from ENV");
+  } catch (error) {
+    console.log(error.message)
+    
+  }
+
+  
 };
 
 export default createDefaultAdmin;
